@@ -1,0 +1,14 @@
+{
+  "versionName": "5.5",
+  "versionCode": 55,
+  "url": "https://therjmali.github.io/dynamic-upi-qr-code/downloads/Dynamic-UPI-QR-Code-v5.5.apk",
+  "sha256": "5db3cb7794a139de1ee4d247681a716dece2fd07a51ed08ed6789ab11f77a7d4",
+  "size": 472966,
+  "minAndroid": 10,
+  "notes": [
+    "Fixes the startup crash on Android 14 and newer",
+    "Safer start-up with on-screen crash details",
+    "Share a QR from Gallery, in-app updates, online and offline"
+  ],
+  "published": "2026-10-27"
+}

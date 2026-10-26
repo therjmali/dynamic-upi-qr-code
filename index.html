@@ -14,7 +14,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preload" href="fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<meta name="application-name" content="Dynamic UPI QR Code"><meta name="version" content="4.7">
+<meta name="application-name" content="Dynamic UPI QR Code"><meta name="version" content="5.5">
 <style>@font-face{font-family:"Sora";font-style:normal;font-display:swap;font-weight:100 800;src:url(fonts/sora-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:100 900;src:url(fonts/inter-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:"Inter";font-style:normal;font-display:swap;font-weight:100 900;src:url(fonts/inter-rupee.woff2) format("woff2");unicode-range:U+20B9}
@@ -168,6 +168,11 @@ label{font-weight:600;letter-spacing:.004em}
 .pay-to{font-weight:700;letter-spacing:-.03em}.pay-amt{font-weight:800;letter-spacing:-.035em;font-variant-numeric:tabular-nums}.pay-sm{font-weight:700}
 footer{line-height:1.7}footer .ver{font-family:var(--fd);font-weight:700;letter-spacing:-.01em;color:var(--ink);opacity:.8}footer .dis{opacity:.8}
 footer .apk{display:inline-block;margin:10px 0 6px;padding:11px 18px;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--accent));color:var(--brand-ink);font-weight:700;font-size:.86rem;text-decoration:none;box-shadow:0 12px 24px -12px color-mix(in srgb,var(--brand) 70%,transparent)}
+
+.upd{display:flex;align-items:center;gap:12px;margin:14px 0 0;padding:12px 14px;border-radius:18px;background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 14%,var(--solid)),color-mix(in srgb,var(--accent) 12%,var(--solid)));border:1px solid color-mix(in srgb,var(--brand) 35%,var(--line));animation:okpop .7s var(--ease) both}
+.upd-i{font-size:1.5rem}.upd-b{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.upd-b b{font-family:var(--fd);font-size:.9rem;letter-spacing:-.01em}.upd-b small{color:var(--mute);font-size:.76rem;overflow-wrap:anywhere}
+.upd-a{display:flex;flex-direction:column;gap:6px}.upd-a button{min-height:34px;font-size:.8rem;padding:0 14px;border-radius:12px}
+#appf{margin:2px 0 6px;opacity:.9}#appf a{color:var(--brand);font-weight:700;text-decoration:none}
 </style>
 </head>
 <body>
@@ -176,6 +181,7 @@ footer .apk{display:inline-block;margin:10px 0 6px;padding:11px 18px;border-radi
  <a class="brand" id="home" href="./" aria-label="Refresh – Dynamic UPI QR Code"><div class="mark" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 64 64"><g fill="#fff"><path d="M10 10h18v18H10zm5 5v8h8v-8zM36 10h18v18H36zm5 5v8h8v-8zM10 36h18v18H10zm5 5v8h8v-8z"/><path d="M36 36h7v7h-7zm11 0h7v5h-7zm-11 11h5v7h-5zm9 2h9v5h-9z"/></g></svg></div><div><h1>Dynamic <b>UPI QR</b> Code</h1><p class="sub" id="sub">Premium payment QR cards in seconds</p></div></a>
  <div class="hbtns"><button class="pill hide" id="install" type="button">📲 Install app</button><button class="icon" id="snd" type="button" aria-label="Sounds on" aria-pressed="true">🔔</button><button class="icon" id="theme" type="button" aria-label="Toggle dark mode">🌓</button></div>
 </header>
+<div class="upd hide" id="upd" role="status"><div class="upd-i" aria-hidden="true">🔄</div><div class="upd-b"><b id="upd-t"></b><small id="upd-n"></small></div><div class="upd-a"><button class="primary" id="upd-go" type="button">Update</button><button id="upd-later" type="button">Later</button></div></div>
 <div class="modes" id="modes" data-mode="upi" role="tablist" aria-label="QR type"><button type="button" role="tab" data-mode="upi" aria-selected="true"><i>📲</i><span>UPI QR</span></button><button type="button" role="tab" data-mode="cc" aria-selected="false"><i>💳</i><span>Credit Card QR</span></button></div>
 <section class="card payc" id="pay" aria-live="polite">
  <div class="pay-hd"><img class="bk hide" id="pay-bk" alt=""><div><div class="pay-sm" id="pay-sm">You are paying</div><h2 class="pay-to" id="pay-to">…</h2></div></div>
@@ -251,7 +257,7 @@ footer .apk{display:inline-block;margin:10px 0 6px;padding:11px 18px;border-radi
  </section>
 </main>
 <details><summary>How it works &amp; privacy</summary><p><b>Credit Card QR:</b> several banks give every credit card a UPI address (Axis, ICICI, SBI Card, IDFC FIRST, AU, American Express). Pick your bank, enter the details it needs, and the QR lets anyone pay your card bill from a UPI app. Formats come from the banks and cardholder communities and can change, so always send a small test payment first. Card numbers are used only on your device and are never saved.</p><p>The QR encodes a standard UPI payment link (upi://pay) with your payee address, name, optional amount and note. Anyone can scan it with Google Pay, PhonePe, Paytm, BHIM, WhatsApp or any bank UPI app. Everything is generated locally in your browser – no server, no tracking, no signup. Always scan and verify the payee name shown by your UPI app before paying.</p></details>
-<footer><div class="ver">Dynamic UPI QR Code · v4.7</div><a class="apk hide" id="apk" href="downloads/Dynamic-UPI-QR-Code-v4.7.apk" download>📱 Get the Android app</a><div>© 2026 Rana. All rights reserved.</div><div class="dis">Independent tool – not affiliated with NPCI, BHIM, or any bank or payment app.</div></footer>
+<footer><div class="ver" id="ver">Dynamic UPI QR Code · v5.5</div><div class="hide" id="appf"><span>Works online &amp; offline</span> · <a href="#" id="chk">Check for updates</a></div><a class="apk hide" id="apk" href="downloads/Dynamic-UPI-QR-Code-latest.apk" download>📱 Get the Android app</a><div>© 2026 Rana. All rights reserved.</div><div class="dis">Independent tool – not affiliated with NPCI, BHIM, or any bank or payment app.</div></footer>
 </div>
 <img id="pimg" alt="UPI QR code for printing">
 <div id="toast" role="status"></div>
@@ -262,7 +268,7 @@ footer .apk{display:inline-block;margin:10px 0 6px;padding:11px 18px;border-radi
 <script>
 (()=>{
 "use strict";
-const APP=window.AndroidApp||null,VER="4.7";
+const APP=window.AndroidApp||null,VER="5.5";
 const $=id=>document.getElementById(id),KEY="dupi.v1",TKEY="dupi.theme";
 const el=Object.fromEntries(["name","type","vpa","mob","hnd","acc","ifsc","aad","amt","note","ccnum","ccmob","cc4","rem"].map(k=>[k,$(k)]));
 const btn=["jpg","svg","open","share","print","copy","save","plink"].map(k=>$("b-"+k));
@@ -633,6 +639,22 @@ const fontsP=(document.fonts&&document.fonts.load)?Promise.all(["800 60px Sora",
 fontsP.then(()=>{if(cur){need=true;drawNow()}});
 if(APP){$("b-print").classList.add("hide");document.documentElement.classList.add("inapp")}
 {const ak=$("apk");if(ak&&!APP&&/Android/i.test(navigator.userAgent))ak.classList.remove("hide")}
+
+/* ---------- Android: QR shared from the Gallery + in-app updates ---------- */
+window.dupiSharedImage=function(){if(!(APP&&APP.takeSharedImage))return;let b="";try{b=APP.takeSharedImage()}catch{}if(!b)return;
+ try{const bin=atob(b),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);handleFile(new File([u],"shared.jpg",{type:"image/jpeg"}))}catch{toast("Could not open the shared image")}};
+const UPD_URL="https://therjmali.github.io/dynamic-upi-qr-code/downloads/latest.json";
+async function checkUpdate(manual){
+ if(!APP||!APP.versionCode)return;
+ try{const r=await fetch(UPD_URL+"?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error("http");const j=await r.json(),cur=+APP.versionCode();
+  if(+j.versionCode>cur){if(!manual&&store.get("dupi.updskip")===String(j.versionCode)&&Date.now()-(+store.get("dupi.updskipt")||0)<864e5)return;showUpdate(j);if(manual)toast("🔄 Update available – v"+j.versionName)}
+  else if(manual)toast("✅ You have the latest version (v"+VER+")")}
+ catch{if(manual)toast("📴 You're offline – the app still works. Try again when connected.")}}
+function showUpdate(j){const b=$("upd");$("upd-t").textContent="Update available – v"+j.versionName;$("upd-n").textContent=(j.notes||[]).slice(0,3).join(" · ");b.classList.remove("hide");
+ $("upd-go").onclick=()=>{buzz();toast("⬇️ Downloading the update…");try{APP.startUpdate(j.url,j.sha256||"",j.versionName)}catch{toast("Could not start the update")}};
+ $("upd-later").onclick=()=>{store.set("dupi.updskip",String(j.versionCode));store.set("dupi.updskipt",String(Date.now()));b.classList.add("hide")}}
+if(APP){$("appf").classList.remove("hide");try{$("ver").textContent="Dynamic UPI QR Code · v"+VER+(APP.versionCode?" (build "+APP.versionCode()+")":"")}catch{}
+ $("chk").addEventListener("click",e=>{e.preventDefault();checkUpdate(true)})}
 const th=$("theme"),root=document.documentElement,applyT=t=>root.dataset.theme=t;
 applyT(store.get(TKEY)==="dark"?"dark":"light");
 th.onclick=()=>{const t=root.dataset.theme=="dark"?"light":"dark";applyT(t);store.set(TKEY,t)};
@@ -646,6 +668,7 @@ try{const P=new URLSearchParams(location.search);
 try{const pa=new URLSearchParams(location.search).get("pa");if(pa&&ccFromVpa(pa)&&new URLSearchParams(location.search).get("edit")){const P=new URLSearchParams(location.search);setTimeout(()=>applyPay({vpa:pa,name:P.get("pn")||"",am:P.get("am")||"",note:P.get("tn")||""},"paste"),80)}}catch{}
 layout();render();renderSaved();setTimeout(()=>{centerBank();railFades()},80);
 if(document.documentElement.classList.contains("payview"))initPay();
+if(APP){setTimeout(()=>{window.dupiSharedImage()},350);setTimeout(()=>checkUpdate(false),2500)}
 if(!APP&&"serviceWorker"in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 })();
 </script>
